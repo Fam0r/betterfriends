@@ -20,6 +20,7 @@ module.exports = async function () {
   const channelStore = await getModule([ 'getChannel', 'getDMFromUserId' ]);
   const activityStore = await getModule([ 'getPrimaryActivity' ]);
   const statusStore = await getModule([ 'getStatus' ]);
+  const nickStore = await getModule([ 'getNickname' ]);
   const classes = {
     ...await getModule([ 'channel', 'closeButton' ]),
     ...await getModule([ 'avatar', 'muted', 'selected' ]),
@@ -94,7 +95,7 @@ module.exports = async function () {
         user,
         channel,
         selected,
-        channelName: user.username,
+        channelName: nickStore.getNickname(userId) !== undefined ? nickStore.getNickname(userId) : user.username,
         isMobile: statusStore.isMobileOnline(userId),
         status: statusStore.getStatus(userId),
         activities: activityStore.getActivities(userId),
